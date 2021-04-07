@@ -2,16 +2,8 @@ import axios from 'axios'
 import {
   BOOK_LIST_FAIL, BOOK_LIST_REQUEST,
   BOOK_LIST_SUCCESS,
-
-
-
-
-
-
   EXTRACT_BOOKS_FAIL, EXTRACT_BOOKS_REQUEST,
-
-
-  EXTRACT_BOOKS_RESET, EXTRACT_BOOKS_SUCCESS
+   EXTRACT_BOOKS_SUCCESS
 } from '../constants/bookConstants'
 
 export const listBooks = () => async (dispatch) => {
@@ -75,10 +67,6 @@ export const listBooks = () => async (dispatch) => {
     }
   }
 
-  export const resetExtractedBooks=()=> async (dispatch) => {
-    dispatch({
-      type: EXTRACT_BOOKS_RESET,
-    })
-  }
+  
   
 

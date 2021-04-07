@@ -1,33 +1,21 @@
 import axios from 'axios'
-import React, { useState,useEffect } from 'react'
+import React, { useState, } from 'react'
 import Book from '../components/Book'
 import { Form, Row,Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import FormContainer from '../components/FormContainer'
 import { useDispatch, useSelector } from 'react-redux'
-import { extractBooks, resetExtractedBooks} from "../actions/bookActions";
+import { extractBooks} from "../actions/bookActions";
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { EXTRACT_BOOKS_RESET } from '../constants/bookConstants'
 
 function ExtractScreen() {
     const dispatch = useDispatch()
 
 
     const extractedBooks = useSelector((state) => state.extractedBooks)
-    const { loading, error, success,extBooks } = extractedBooks
+    const { loading, error, extBooks } = extractedBooks
     
-    useEffect(() => {
-      if (success) {
-        dispatch({ type: EXTRACT_BOOKS_RESET })
-      }
-      if(extBooks.length>0){
-          extBooks.length=0
-      }
-      // console.log(extBooks);
-        // console.log(extBooks.length);
-    }, [extBooks,success,dispatch])
-
 
     const [uploading, setUploading] = useState(false)
     const [extractSucess, setExtractSucess] = useState(false)
@@ -55,11 +43,9 @@ function ExtractScreen() {
             setUploading(false)
           }
       }
-      const goBackHandler = ()=>{
-        dispatch(resetExtractedBooks())
-      }
+  
     return (
-        <><Link to='/' className='btn btn-light my-3' onClick={goBackHandler}>
+        <><Link to='/' className='btn btn-light my-3'>
 
         Go Back
       </Link>
