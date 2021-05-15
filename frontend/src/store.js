@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import {
   bookListReducer,
+  bookTopReducer,
   extractBookReducer
 } from './reducers/bookReducers'
 import {
@@ -18,7 +19,8 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
-  extractedBooks: extractBookReducer
+  extractedBooks: extractBookReducer,
+  bookTop:bookTopReducer,
 })
 
 

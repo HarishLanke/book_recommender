@@ -5,19 +5,23 @@ import Book from '../components/Book'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listBooks } from '../actions/bookActions'
+import BookCarousel from '../components/BookCarousel'
 
-const HomeScreen = () => {
+const HomeScreen = ({match}) => {
+  const keyword = match.params.keyword
+
   const dispatch = useDispatch()
 
   const bookList = useSelector((state) => state.bookList)
   const { loading, error, books } = bookList
 
   useEffect(() => {
-    dispatch(listBooks())
-  }, [dispatch])
+    dispatch(listBooks(keyword))
+  }, [dispatch,keyword])
 
   return (
     <>
+    {!keyword && <BookCarousel/>}
       <h1>Latest Books</h1>
       {loading ? (
         <Loader />

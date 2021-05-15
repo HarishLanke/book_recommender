@@ -5,6 +5,7 @@ import {
   EXTRACT_BOOKS_REQUEST,
   EXTRACT_BOOKS_SUCCESS,
   EXTRACT_BOOKS_FAIL,
+  BOOKS_TOP_FAIL,BOOKS_TOP_REQUEST,BOOKS_TOP_SUCCESS
 } from '../constants/bookConstants'
 
 export const bookListReducer = (state = { books: [] }, action) => {
@@ -34,5 +35,18 @@ export const extractBookReducer = (state = { extBooks: [] }, action) => {
       return { loading: false, error: action.payload }
     default:
     return state
+  }
+}
+
+export const bookTopReducer = (state = { books: [] }, action) => {
+  switch (action.type) {
+    case BOOKS_TOP_REQUEST:
+      return { loading: true, books: [] }
+    case BOOKS_TOP_SUCCESS:
+      return { loading: false,books: action.payload }
+    case BOOKS_TOP_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
   }
 }

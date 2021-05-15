@@ -8,22 +8,26 @@ const getRepetedWords = (str1, str2) => {
   let arr1 = stopword.removeStopwords(str1.split(" "));
   let arr2 = stopword.removeStopwords(str2.split(" "));
   // console.log(arr1,arr2);
-
+  let words={}
   let result = {};
   let count = 0;
   for (let i in arr1) {
     for (let j in arr2) {
-      if (arr1[i] === arr2[j]) {
+      if (arr1[i] === arr2[j] && arr1[i]!=="") {
         // console.log(arr1[i],arr2[j]);
         count += 1;
         result[arr1[i]] = !result[arr1[i]] ? 1 : result[arr1[i]] + 1;
       }
     }
   }
+  // delete result[""];
   // console.log(result, count);
-  delete result[""];
+  words["count"]=count;
+  words["words"]=result;
+
+  //console.log("words",words);
   // return result;
-  return count;
+  return words;
 };
 const removeChracters = (text) => {
   text = text.toLowerCase();
@@ -65,10 +69,16 @@ export const extractBooks= async (file,books)=>{
       buy: book.buy,
     };
     // let currentBookContents = removeChracters(book.contents);
-    finalResult[book._id] = getRepetedWords(
-      text1,
-      book.contents
-    );
+    const {count, words}=getRepetedWords(text1,book.contents);
+    // finalResult[book._id] = getRepetedWords(
+    //   text1,
+    //   book.contents
+    // );
+   
+    finalResult[book._id] = count;
+    booksData[book._id]["words"]=words;
+    // console.log("words,",words);
+    // console.log(finalResult);
   })
   
   const keysSorted = Object.keys(finalResult).sort(function (a, b) {
@@ -109,7 +119,15 @@ function shuffle(array) {
 // @route   GET /api/books
 // @access  Public
 const getBooks = asyncHandler(async (req, res) => {
-  const books = await Book.find({})
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i',
+        },
+      }
+    : {}
+    const books = await Book.find({ ...keyword })
   shuffle(books)
   res.json(books)
 })
@@ -134,6 +152,7 @@ const getBookById = asyncHandler(async (req, res) => {
 const getExtractedBooks = asyncHandler(async (req, res) => {
   const books = await Book.find({})
   let extractedBooks;
+  // console.log(req.params.file);
   extractedBooks = await extractBooks(req.params.file,books)
   res.json(extractedBooks)
 })
