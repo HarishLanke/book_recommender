@@ -4,8 +4,7 @@ import { createWorker } from "tesseract.js";
 import stopword from "stopword";
 
 //UTILS functions for extraction
-const getRepetedWords = (str1, str2) => {
-  let arr1 = stopword.removeStopwords(str1.split(" "));
+const getRepetedWords = (arr1, str2) => {
   let arr2 = stopword.removeStopwords(str2.split(" "));
   // console.log(arr1,arr2);
   let words={}
@@ -60,6 +59,8 @@ export const extractBooks= async (file,books)=>{
   await worker.terminate();
   // console.log(text);
   const text1=removeChracters(text);
+  const text2=stopword.removeStopwords(text1.split(" "));
+  const text3=[...new Set(text2)];
   books.map(book=>{
     booksData[book._id] = {
       _id: book._id,
@@ -69,7 +70,7 @@ export const extractBooks= async (file,books)=>{
       buy: book.buy,
     };
     // let currentBookContents = removeChracters(book.contents);
-    const {count, words}=getRepetedWords(text1,book.contents);
+    const {count, words}=getRepetedWords(text3,book.contents);
     // finalResult[book._id] = getRepetedWords(
     //   text1,
     //   book.contents
