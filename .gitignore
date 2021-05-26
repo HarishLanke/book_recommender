@@ -10,7 +10,7 @@ eng.traineddata
 /coverage
 
 # bookion
-/build
+/frontend/build
 
 # misc
 .DS_Store

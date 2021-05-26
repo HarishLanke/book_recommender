@@ -31,7 +31,7 @@ const getRepetedWords = (arr1, str2) => {
 const removeChracters = (text) => {
   text = text.toLowerCase();
   let newstr = "";
-  let iChars = "~`@!#$%^&*+â€™=-[]\\';,/{}|\":<>?»";
+  let iChars = "~`@!#$%^&*+â€™=-[]\\';,/{}|\":<>?»1234567890";
   for (let i = 0; i < text.length; i++) {
     if (
       !(text[i] == "\n" || text[i] == "\r" || !(iChars.indexOf(text[i]) == -1))
@@ -60,7 +60,10 @@ export const extractBooks= async (file,books)=>{
   // console.log(text);
   const text1=removeChracters(text);
   const text2=stopword.removeStopwords(text1.split(" "));
-  const text3=[...new Set(text2)];
+  const text3=[...new Set(text2)].filter(function(val,ind,arr){
+    return val!=''
+  })
+  console.log(text3);
   books.map(book=>{
     booksData[book._id] = {
       _id: book._id,
